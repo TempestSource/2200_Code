@@ -1,7 +1,6 @@
 "use strict";
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("inventoryForm");
-
     let itemNames = [];
     let itemCounts = [];
     let itemCosts = [];
@@ -15,7 +14,6 @@ document.addEventListener("DOMContentLoaded", function() {
         itemNames.push(itemName);
         itemCounts.push(itemCount);
         itemCosts.push(itemCost);
-
         displayItems();
     });
 
@@ -29,8 +27,20 @@ document.addEventListener("DOMContentLoaded", function() {
                 <p>${itemNames[i]}</p>
                 <p>${itemCounts[i]}</p>
                 <p>${itemCosts[i]}</p>
+                <button class="reduce">Reduce</button>
             `
             itemList.appendChild(div);
         }
+
+        let total = document.createElement("div");
+        let sum = 0.0;
+        for ( let i = 0; i < itemCounts.length; i++) {
+            sum += itemCounts[i] * itemCosts[i];
+        }
+        total.className = "total";
+        total.innerHTML = `
+            <p>Total Value: \$${sum.toFixed(2)}</p>
+        `
+        itemList.appendChild(total);
     }
 });
