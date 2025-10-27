@@ -1,4 +1,5 @@
 "use strict";
+
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.getElementById("inventoryForm");
     let itemNames = [];
@@ -17,6 +18,18 @@ document.addEventListener("DOMContentLoaded", function() {
         displayItems();
     });
 
+    function reduceItem(i) {
+        if (itemCounts[i] > 1) {
+            itemCounts[i] -= 1;
+            displayItems();
+        } else {
+            itemNames.splice(i,1);
+            itemCounts.splice(i,1);
+            itemCosts.splice(i,1);
+            displayItems();
+        }
+    }
+
     function displayItems() {
         let itemList = document.getElementById("inventory");
         itemList.innerHTML = "Inventory List: ";
@@ -25,12 +38,19 @@ document.addEventListener("DOMContentLoaded", function() {
             div.className = "item";
             div.innerHTML = `
                 <p>${itemNames[i]}</p>
-                <p>${itemCounts[i]}</p>
-                <p>${itemCosts[i]}</p>
-                <button class="reduce">Reduce</button>
+                <p>Count: ${itemCounts[i]}</p>
+                <p>${itemCosts[i]} ea</p>
             `
+
+            let reduceButton = document.createElement("button");
+            reduceButton.innerText = "Reduce";
+            reduceButton.className = "reduce";
+            reduceButton.addEventListener("click", () => reduceItem(i));
+
+            div.appendChild(reduceButton);
             itemList.appendChild(div);
         }
+
 
         let total = document.createElement("div");
         let sum = 0.0;
@@ -43,4 +63,5 @@ document.addEventListener("DOMContentLoaded", function() {
         `
         itemList.appendChild(total);
     }
+
 });
